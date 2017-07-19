@@ -1,0 +1,5 @@
+shepherd_connector.settings:
+  title: 'Shepherd connector'
+  description: 'Configure Shepherd connector and integrations.'
+  parent: system.admin_config_system
+  route_name: shepherd_connector.settings

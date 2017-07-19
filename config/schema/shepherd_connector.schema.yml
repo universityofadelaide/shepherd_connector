@@ -1,0 +1,14 @@
+shepherd_connector.settings:
+  type: mapping
+  label: 'Shepherd connector settings'
+  mapping:
+    role_sync:
+      type: mapping
+      label: 'Role sync'
+      mapping:
+        enabled:
+          type: boolean
+          label: 'Synchronise user roles with Shepherd'
+        controlled_roles:
+          type: string
+          label: 'Comma-separated list of controlled roles'

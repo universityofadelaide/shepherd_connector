@@ -1,0 +1,7 @@
+shepherd_connector.settings:
+  path: '/admin/config/system/shepherd-connector'
+  defaults:
+    _form: '\Drupal\shepherd_connector\Form\ShepherdConnectorSettings'
+    _title: 'Shepherd connector settings'
+  requirements:
+    _permission: 'administer account settings'

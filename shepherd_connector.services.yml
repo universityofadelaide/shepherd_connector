@@ -1,0 +1,3 @@
+services:
+  shepherd_connector.connector:
+    class: Drupal\shepherd_connector\Service\Connector

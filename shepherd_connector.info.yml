@@ -1,0 +1,5 @@
+name: Shepherd connector
+type: module
+description: 'Provides functions for connecting a site to the Shepherd platform.'
+core: 8.x
+package: UA

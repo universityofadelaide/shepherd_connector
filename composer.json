@@ -1,0 +1,7 @@
+{
+  "name": "universityofadelaide/shepherd_connector",
+  "type": "drupal-module",
+  "description": "Provides functions for connecting a site to the Shepherd platform.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+"
+}

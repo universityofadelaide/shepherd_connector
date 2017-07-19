@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Contains shepherd_connector.module.
+ */
+
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_user_login().
+ *
+ * Synchronises the user's drupal roles with the ones assigned in Shepherd.
+ * Any local role not present in Shepherd will be removed, and any extra roles
+ * that appear in Shepherd but not locally will be added. This synchronisation
+ * only effects roles that are configured as "controlled roles".
+ */
+function shepherd_connector_user_login(UserInterface $account) {
+  // Only process this hook if login method was CAS and role sync is enabled.
+  if (\Drupal::request()->get('_route') !== 'cas.service' ||
+    !\Drupal::config('shepherd_connector.settings')->get('enabled')) {
+    return;
+  }
+
+  // Get list of roles user currently has.
+  $local_roles = $account->getRoles();
+
+  // Get list of roles user should have from authorisation provider.
+  $remote_roles = \Drupal::service('shepherd_connector.connector')
+    ->getRolesForUser($account->getAccountName());
+
+  // Get list of controlled roles from config.
+  $controlled_roles = explode(',', str_replace(' ', '',
+    \Drupal::config('shepherd_connector.settings')->get('controlled_roles')));
+
+  $changed = FALSE;
+
+  foreach ($controlled_roles as $role) {
+    if (in_array($role, $local_roles) && !in_array($role, $remote_roles)) {
+      // Remove any controlled roles from user that exist locally,
+      // but not in the remote authorisation provider.
+      $account->removeRole($role);
+      $changed = TRUE;
+    }
+    elseif (in_array($role, $remote_roles) && !in_array($role, $local_roles)) {
+      // Add any controlled roles that exist remotely, but not locally.
+      $account->addRole($role);
+      $changed = TRUE;
+    }
+  }
+
+  // Update account if it changed.
+  if ($changed) {
+    $account->save();
+  }
+}
