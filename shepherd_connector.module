@@ -18,7 +18,7 @@ use Drupal\user\UserInterface;
 function shepherd_connector_user_login(UserInterface $account) {
   // Only process this hook if login method was CAS and role sync is enabled.
   if (\Drupal::request()->get('_route') !== 'cas.service' ||
-    !\Drupal::config('shepherd_connector.settings')->get('enabled')) {
+    !\Drupal::config('shepherd_connector.settings')->get('role_sync.enabled')) {
     return;
   }
 
@@ -31,7 +31,7 @@ function shepherd_connector_user_login(UserInterface $account) {
 
   // Get list of controlled roles from config.
   $controlled_roles = explode(',', str_replace(' ', '',
-    \Drupal::config('shepherd_connector.settings')->get('controlled_roles')));
+    \Drupal::config('shepherd_connector.settings')->get('role_sync.controlled_roles')));
 
   $changed = FALSE;
 
