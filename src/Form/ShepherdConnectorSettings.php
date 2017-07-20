@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\shp_custom\Form;
+namespace Drupal\shepherd_connector\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
