@@ -17,7 +17,8 @@ use Drupal\user\UserInterface;
  */
 function shepherd_connector_user_login(UserInterface $account) {
   // Only process this hook if login method was CAS and role sync is enabled.
-  if (\Drupal::request()->get('_route') !== 'cas.service' ||
+  if (!(\Drupal::request()->get('_route') === 'openid_connect.redirect_controller_redirect' ||
+    \Drupal::request()->get('_route') === 'cas.service') ||
     !\Drupal::config('shepherd_connector.settings')->get('role_sync.enabled')) {
     return;
   }
